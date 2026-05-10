@@ -15,9 +15,14 @@ class Asteroid(CircleShape):
             pygame.Vector2(radius*2.05, radius*2.05)
         )
 
+        self.rotation = random.uniform(0, 360)
+
+        base_speed = random.uniform(-180, 180)
+        self.rotation_speed = base_speed * (45 / radius)
+
         self.original_surface = pygame.transform.rotate(
             self.original_surface,
-            random.uniform(0, 360)
+            self.rotation
         )
 
         self.surface = self.original_surface
@@ -29,6 +34,18 @@ class Asteroid(CircleShape):
 
     def update(self, dt):
         self.position += self.velocity * dt
+
+        # Update rotation using delta time
+        self.rotation += self.rotation_speed * dt
+
+        # Keep it bounded (optional but clean)
+        self.rotation %= 360
+
+        # Rotate from original each frame
+        self.surface = pygame.transform.rotate(self.original_surface, self.rotation)
+
+        # Keep sprite centered
+        self.bounding_box = self.surface.get_rect(center=self.position)
 
     def score(self):
         """Score received for shooting this asteroid"""
