@@ -32,10 +32,15 @@ def main():
 
     score = Score(drawable)
 
+
     AsteroidField.containers = (updatable,)
     AsteroidField()
 
     player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
+    background = pygame.image.load("assets/background.png").convert()
+    bg_width = background.get_width()
+    bg_height = background.get_height()
 
     while running:
         for event in pygame.event.get():
@@ -44,6 +49,8 @@ def main():
 
         log_state()
         screen.fill((0, 0, 0))
+
+        [screen.blit(background, (x, y)) for x in range(0, SCREEN_WIDTH, bg_width) for y in range(0, SCREEN_HEIGHT, bg_height)]
 
         updatable.update(delta_time)
 
