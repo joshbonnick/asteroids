@@ -10,8 +10,22 @@ class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, (255,255,255), self.position, self.radius, LINE_WIDTH)
+        self.original_surface = pygame.transform.scale(
+            pygame.image.load("assets/sprites/asteroid.png").convert_alpha(),
+            pygame.Vector2(radius*2.05, radius*2.05)
+        )
+
+        self.original_surface = pygame.transform.rotate(
+            self.original_surface,
+            random.uniform(0, 360)
+        )
+
+        self.surface = self.original_surface
+        self.bounding_box = self.surface.get_rect()
+
+    def draw(self, screen: pygame.Surface):
+        self.bounding_box = self.surface.get_rect(center=self.position)
+        screen.blit(self.surface, self.bounding_box)
 
     def update(self, dt):
         self.position += self.velocity * dt
