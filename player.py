@@ -22,6 +22,9 @@ class Player(CircleShape):
         self.surface = self.original_surface
         self.bounding_box = self.surface.get_rect()
 
+        self.shooting_sound = pygame.mixer.Sound("assets/sfx/laser.ogg")
+        self.shooting_sound.set_volume(0.6)
+
     def draw(self, screen: pygame.Surface):
         self.bounding_box = self.surface.get_rect(center=self.position)
         return screen.blit(self.surface, self.bounding_box)
@@ -72,6 +75,8 @@ class Player(CircleShape):
 
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+        self.shooting_sound.play()
 
         Score().shot_fired()
 
