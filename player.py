@@ -13,7 +13,10 @@ class Player(CircleShape):
 
         self.rotation = 0
 
-        self.original_surface = pygame.transform.scale(pygame.image.load("assets/sprites/player.png").convert(), pygame.Vector2(PLAYER_RADIUS*2, PLAYER_RADIUS*2))
+        self.original_surface = pygame.transform.scale(
+            pygame.image.load("assets/sprites/player.png").convert_alpha(),
+            pygame.Vector2(PLAYER_RADIUS*2, PLAYER_RADIUS*2)
+        )
         self.original_surface = pygame.transform.rotate(self.original_surface, 180)
 
         self.surface = self.original_surface
