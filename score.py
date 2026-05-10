@@ -1,9 +1,11 @@
-from constants import SCORE_FILE
+from constants import SCORE_FILE, SCREEN_WIDTH
 import json
 import pygame
 
-class Score:
-    def __init__(self):
+class Score(pygame.sprite.Sprite):
+    def __init__(self, *groups):
+        super().__init__(*groups)
+        
         self.current = 0
         self.high = 0
         self.session = 0
@@ -12,25 +14,35 @@ class Score:
 
         self._font = pygame.font.SysFont('Comic Sans MS', 30)
         self._color = (255, 0, 0)
-        self._surface = None
+        self._surfaces = None
         self._dirty = True  # needs initial render
-
-    def add(self, delta):
-        self.set(self.current + delta)
-        self._dirty = True
 
     def draw(self, screen: pygame.Surface) -> None:
         if self._dirty:
-            self._surface = self._font.render(
-                f"Score: {self.current}",
-                True,
-                self._color
-            )
+
+            lines = [
+                { "text": f"Score: {self.current}"},
+                { "text": f"Highscore: {self.high}"},
+                { "text": "Press R to Restart"},
+            ]
+
+            self._surfaces = [
+                self._font.render(line["text"], True, self._color)
+                for line in lines
+            ]
+
             self._dirty = False
 
-        screen.blit(self._surface, (0, 0))
+        y = 0
+        for surface in self._surfaces:
+            screen.blit(surface, (0, y))
+            y += surface.get_height()
 
-    def set(self, score):
+    def increment(self, delta):
+        self.set_score(self.current + delta)
+        self._dirty = True
+
+    def set_score(self, score):
         self.current = score
 
         if self.current > self.high:

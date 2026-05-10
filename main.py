@@ -29,7 +29,7 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     Shot.containers = (shots, updatable, drawable)
 
-    score = Score()
+    score = Score(drawable)
 
     AsteroidField.containers = (updatable,)
 
@@ -57,14 +57,15 @@ def main():
                 for shot in shots:
                     if asteroid.collides_with(shot):
                         log_event("asteroid_shot")
+
                         shot.kill()
                         asteroid.split()
-                        score.add(asteroid.score())
+
+                        score.increment(asteroid.score())
 
             for sprite in drawable:
                 sprite.draw(screen)
 
-            score.draw(screen)
             pygame.display.flip()
 
             delta_time = clock.tick(60) / 1000
