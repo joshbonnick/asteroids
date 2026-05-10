@@ -23,7 +23,6 @@ class Player(CircleShape):
         self.bounding_box = self.surface.get_rect()
 
         self.shooting_sound = pygame.mixer.Sound("assets/sfx/laser.ogg")
-        self.shooting_sound.set_volume(0.6)
 
     def draw(self, screen: pygame.Surface):
         self.bounding_box = self.surface.get_rect(center=self.position)

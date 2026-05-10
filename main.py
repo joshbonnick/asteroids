@@ -70,6 +70,8 @@ def main():
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
 
+                    play_hit_sound()
+
                     shot.kill()
                     asteroid.split()
 
@@ -86,9 +88,14 @@ def main():
 
     score.save()
 
+def play_hit_sound():
+    sound = pygame.mixer.Sound("assets/sfx/hit.ogg")
+    sound.set_volume(0.15)
+    sound.play()
+
 def play_game_over_sound():
+    pygame.mixer.stop()
     sound = pygame.mixer.Sound("assets/sfx/lose.ogg")
-    sound.set_volume(0.6)
     sound.play()
 
 if __name__ == "__main__":
