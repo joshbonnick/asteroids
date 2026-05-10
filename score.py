@@ -20,7 +20,7 @@ class Score(pygame.sprite.Sprite):
 
         self.load()
 
-        self._font = pygame.font.SysFont('Comic Sans MS', 30)
+        self._font = pygame.font.Font("assets/fonts/kenvector_future_thin.ttf", 24)
         self._color = (255, 0, 0)
         self._surfaces = None
         self._dirty = True  # needs initial render
