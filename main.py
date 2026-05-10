@@ -58,8 +58,7 @@ def main():
                         log_event("asteroid_shot")
                         shot.kill()
                         asteroid.split()
-
-                        score.add(1)
+                        score.add(asteroid.score())
 
             for sprite in drawable:
                 sprite.draw(screen)

@@ -16,6 +16,10 @@ class Asteroid(CircleShape):
     def update(self, dt):
         self.position += self.velocity * dt
 
+    def score(self):
+        """Score received for shooting this asteroid"""
+        return self.radius * ASTEROID_SCORE_MULTIPLIER
+
     def split(self):
         self.kill()
 
