@@ -2,6 +2,7 @@ from circleshape import CircleShape
 import pygame
 from constants import *
 from shot import Shot
+from score import Score
 from maths import *
 
 class Player(CircleShape):
@@ -59,5 +60,7 @@ class Player(CircleShape):
 
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+        Score().shot_fired()
 
         return shot

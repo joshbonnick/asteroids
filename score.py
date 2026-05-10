@@ -1,7 +1,12 @@
+import singleton
 from constants import SCORE_FILE, SCREEN_WIDTH
 import json
 import pygame
 
+from singleton import singleton
+
+
+@singleton
 class Score(pygame.sprite.Sprite):
     def __init__(self, *groups):
         super().__init__(*groups)
@@ -9,6 +14,7 @@ class Score(pygame.sprite.Sprite):
         self.current = 0
         self.high = 0
         self.session = 0
+        self.shots_fired = 0
 
         self.load()
 
@@ -43,6 +49,9 @@ class Score(pygame.sprite.Sprite):
         self.set_score(self.current + delta)
         self._dirty = True
 
+    def shot_fired(self, delta = 1):
+        self.shots_fired += delta
+
     def set_score(self, score):
         self.current = score
 
@@ -59,28 +68,27 @@ class Score(pygame.sprite.Sprite):
         if "sessions" not in data:
             data["sessions"] = {}
 
-        data["sessions"][self.session] = self.current
+        data["sessions"][self.session] = { "score": self.current, "shots_fired": self.shots_fired}
 
         with open(SCORE_FILE, "w+") as f:
             f.write(json.dumps({
-                "highscore": self.high,
                 "sessions": data["sessions"]
-            }))
+            }, separators=(",", ":")) )
 
     def load(self):
         try:
             with open(SCORE_FILE, "r", encoding="utf-8") as file:
                 data = json.load(file)
 
-            if "highscore" in data:
-                self.high = int(data["highscore"])
-            else:
-                self.high = 0
+            high = 0
+            for session, entry in data["sessions"].items():
+                self.session = max(self.session, int(session))
+                score = entry["score"]
+                if float(score) > high:
+                    high = float(score)
 
-            if "sessions" in data:
-                self.session = len(data["sessions"])
-            else:
-                self.session = 0
+            self.session += 1
+            self.high = high
 
         except FileNotFoundError:
             self.high = 0
