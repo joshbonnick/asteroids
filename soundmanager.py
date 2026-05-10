@@ -17,7 +17,11 @@ class SoundManager:
         self.__play(self.sounds["hit"], 0.1)
 
     def game_over(self):
+        self.__stop()
         self.__play(self.sounds["game_over"])
+
+    def __stop(self):
+        pygame.mixer.stop()
 
     def __play(self, sound, volume=1.0):
         sound = pygame.mixer.Sound(sound)
