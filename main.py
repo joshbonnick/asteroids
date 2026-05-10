@@ -59,6 +59,8 @@ def main():
                         shot.kill()
                         asteroid.split()
 
+                        score.add(1)
+
             for sprite in drawable:
                 sprite.draw(screen)
 
