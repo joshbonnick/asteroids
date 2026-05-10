@@ -71,8 +71,11 @@ class Player(CircleShape):
 
         self.shot_cooldown = PLAYER_SHOOT_COOLDOWN_SECONDS
 
-        shot = Shot(self.position.x, self.position.y)
-        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        spawn_pos = self.position + forward * self.radius
+
+        shot = Shot(spawn_pos.x, spawn_pos.y, self.rotation)
+        shot.velocity = forward * PLAYER_SHOOT_SPEED
 
         SoundManager().shoot()
         Score().shot_fired()
