@@ -33,6 +33,9 @@ class Score(pygame.sprite.Sprite):
                 { "text": f"Highscore: {self.high}"},
             ]
 
+            if self.shots_fired > 0:
+                lines.append({ "text": f"Accuracy: {self.shots_hit / self.shots_fired * 100:.0f}%"})
+
             self._surfaces = [
                 self._font.render(line["text"], True, self._color)
                 for line in lines
@@ -53,9 +56,11 @@ class Score(pygame.sprite.Sprite):
 
     def shot_fired(self, delta = 1):
         self.shots_fired += delta
+        self._dirty = True
 
     def shot_hit(self, delta = 1):
         self.shots_hit += delta
+        self._dirty = True
 
     def set_score(self, score):
         self.current = score
