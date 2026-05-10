@@ -10,9 +10,15 @@ class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
 
+        asteroid_images = [
+            "assets/sprites/asteroid.png",
+            "assets/sprites/asteroid_2.png",
+            "assets/sprites/asteroid_3.png",
+        ]
+
         self.original_surface = pygame.transform.scale(
-            pygame.image.load("assets/sprites/asteroid.png").convert_alpha(),
-            pygame.Vector2(radius*2.05, radius*2.05)
+            pygame.image.load(asteroid_images[int(random.uniform(0, 2))]).convert_alpha(),
+            pygame.Vector2(radius*2.1, radius*2.1)
         )
 
         self.rotation = random.uniform(0, 360)
