@@ -14,6 +14,7 @@ def main():
 
     pygame.init()
     pygame.font.init()
+
     running = True
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -31,7 +32,6 @@ def main():
     Shot.containers = (shots, updatable, drawable)
 
     score = Score(drawable)
-
 
     AsteroidField.containers = (updatable,)
     AsteroidField()
