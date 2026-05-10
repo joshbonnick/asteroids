@@ -83,7 +83,7 @@ class Score(pygame.sprite.Sprite):
         if "sessions" not in data:
             data["sessions"] = {}
 
-        data["sessions"][self.session] = { "score": self.current, "shots_fired": self.shots_fired}
+        data["sessions"][self.session] = { "score": self.current, "shots_fired": self.shots_fired, "shots_hit": self.shots_hit }
 
         with open(SCORE_FILE, "w+") as f:
             f.write(json.dumps({
