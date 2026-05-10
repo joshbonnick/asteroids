@@ -58,7 +58,12 @@ def main():
         for asteroid in asteroids:
             if player.collides_with(asteroid):
                 log_event("player_hit")
+
+                play_game_over_sound()
                 print("Game over!")
+
+                pygame.time.delay(700)
+
                 running = False
 
             for shot in shots:
@@ -80,6 +85,11 @@ def main():
         delta_time = clock.tick(60) / 1000
 
     score.save()
+
+def play_game_over_sound():
+    sound = pygame.mixer.Sound("assets/sfx/lose.ogg")
+    sound.set_volume(0.6)
+    sound.play()
 
 if __name__ == "__main__":
     main()
