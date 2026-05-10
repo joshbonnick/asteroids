@@ -35,8 +35,8 @@ class Score(pygame.sprite.Sprite):
         line_spacing = 5
         y = 10 # 10px padding
         for surface in self._surfaces:
-            x = SCREEN_WIDTH - surface.get_width() - 10  # 10px padding
-            screen.blit(surface, (x, y))
+            rect = surface.get_rect(topright=(screen.get_width() - 10, y))
+            screen.blit(surface, rect)
             y += surface.get_height() + line_spacing
 
     def increment(self, delta):
