@@ -7,6 +7,7 @@ from constants import *
 from player import Player
 from score import Score
 from shot import Shot
+from soundmanager import SoundManager
 
 def main():
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
@@ -43,6 +44,8 @@ def main():
     bg_width = background.get_width()
     bg_height = background.get_height()
 
+    sound_manager = SoundManager()
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -59,7 +62,7 @@ def main():
             if player.collides_with(asteroid):
                 log_event("player_hit")
 
-                play_game_over_sound()
+                sound_manager.game_over()
                 print("Game over!")
 
                 pygame.time.delay(700)
@@ -70,7 +73,7 @@ def main():
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
 
-                    play_hit_sound()
+                    sound_manager.hit()
 
                     shot.kill()
                     asteroid.split()
@@ -87,16 +90,6 @@ def main():
         delta_time = clock.tick(60) / 1000
 
     score.save()
-
-def play_hit_sound():
-    sound = pygame.mixer.Sound("assets/sfx/hit.ogg")
-    sound.set_volume(0.15)
-    sound.play()
-
-def play_game_over_sound():
-    pygame.mixer.stop()
-    sound = pygame.mixer.Sound("assets/sfx/lose.ogg")
-    sound.play()
 
 if __name__ == "__main__":
     main()

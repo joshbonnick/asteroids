@@ -3,6 +3,7 @@ import pygame
 from constants import *
 from shot import Shot
 from score import Score
+from soundmanager import SoundManager
 from maths import *
 
 class Player(CircleShape):
@@ -21,8 +22,6 @@ class Player(CircleShape):
 
         self.surface = self.original_surface
         self.bounding_box = self.surface.get_rect()
-
-        self.shooting_sound = pygame.mixer.Sound("assets/sfx/laser.ogg")
 
     def draw(self, screen: pygame.Surface):
         self.bounding_box = self.surface.get_rect(center=self.position)
@@ -75,8 +74,7 @@ class Player(CircleShape):
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
 
-        self.shooting_sound.play()
-
+        SoundManager().shoot()
         Score().shot_fired()
 
         return shot
