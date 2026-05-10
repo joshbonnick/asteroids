@@ -18,7 +18,6 @@ def main():
     clock = pygame.time.Clock()
     delta_time = 0
 
-
     updatable = pygame.sprite.Group()  # type: pygame.sprite.Group
     drawable = pygame.sprite.Group()  # type: pygame.sprite.Group
     asteroids = pygame.sprite.Group()  # type: pygame.sprite.Group
