@@ -13,8 +13,15 @@ class Player(CircleShape):
 
         self.rotation = 0
 
-    def draw(self, screen):
-        return pygame.draw.polygon(screen, (255, 255, 255), self.triangle(), LINE_WIDTH)
+        self.original_surface = pygame.transform.scale(pygame.image.load("assets/sprites/player.png").convert(), pygame.Vector2(PLAYER_RADIUS*2, PLAYER_RADIUS*2))
+        self.original_surface = pygame.transform.rotate(self.original_surface, 180)
+
+        self.surface = self.original_surface
+        self.bounding_box = self.surface.get_rect()
+
+    def draw(self, screen: pygame.Surface):
+        self.bounding_box = self.surface.get_rect(center=self.position)
+        return screen.blit(self.surface, self.bounding_box)
 
     def collides_with(self, other):
         if not hasattr(other, "position"):
@@ -51,6 +58,8 @@ class Player(CircleShape):
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+        self.surface = pygame.transform.rotate(self.original_surface, -self.rotation)
+        self.bounding_box = self.surface.get_rect()
 
     def shoot(self):
         if self.shot_cooldown > 0:
