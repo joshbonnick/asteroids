@@ -19,9 +19,7 @@ class Player(CircleShape):
         if not hasattr(other, "position"):
             return False
 
-        a, b, c = self.triangle()
-        closest = closest_point_on_triangle(other.position, a, b, c)
-        return (other.position - closest).length() < other.radius
+        return (other.position - closest_point_on_triangle(other.position, *self.triangle())).length() < other.radius
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
