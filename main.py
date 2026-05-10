@@ -5,6 +5,7 @@ from asteroidfield import AsteroidField
 from logger import log_state, log_event
 from constants import *
 from player import Player
+from score import Score
 from shot import Shot
 
 def main():
@@ -31,36 +32,41 @@ def main():
 
     player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
+    score = Score()
+
     AsteroidField()
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                raise SystemExit
+    try:
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    raise SystemExit
 
-        log_state()
-        screen.fill((0, 0, 0))
+            log_state()
+            screen.fill((0, 0, 0))
 
-        updatable.update(delta_time)
+            updatable.update(delta_time)
 
-        for asteroid in asteroids:
-            if player.collides_with(asteroid):
-                log_event("player_hit")
-                print("Game over!")
-                raise SystemExit
+            for asteroid in asteroids:
+                if player.collides_with(asteroid):
+                    log_event("player_hit")
+                    print("Game over!")
+                    raise SystemExit
 
-            for shot in shots:
-                if asteroid.collides_with(shot):
-                    log_event("asteroid_shot")
-                    shot.kill()
-                    asteroid.split()
+                for shot in shots:
+                    if asteroid.collides_with(shot):
+                        log_event("asteroid_shot")
+                        shot.kill()
+                        asteroid.split()
 
-        for sprite in drawable:
-            sprite.draw(screen)
+            for sprite in drawable:
+                sprite.draw(screen)
 
-        pygame.display.flip()
+            pygame.display.flip()
 
-        delta_time = clock.tick(60) / 1000
+            delta_time = clock.tick(60) / 1000
+    except SystemExit:
+        score.save()
 
 if __name__ == "__main__":
     main()
