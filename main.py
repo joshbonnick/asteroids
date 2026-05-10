@@ -14,6 +14,7 @@ def main():
 
     pygame.init()
     pygame.font.init()
+    running = True
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -32,45 +33,43 @@ def main():
     score = Score(drawable)
 
     AsteroidField.containers = (updatable,)
+    AsteroidField()
 
     player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
-    AsteroidField()
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    try:
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    raise SystemExit
+        log_state()
+        screen.fill((0, 0, 0))
 
-            log_state()
-            screen.fill((0, 0, 0))
+        updatable.update(delta_time)
 
-            updatable.update(delta_time)
+        for asteroid in asteroids:
+            if player.collides_with(asteroid):
+                log_event("player_hit")
+                print("Game over!")
+                running = False
 
-            for asteroid in asteroids:
-                if player.collides_with(asteroid):
-                    log_event("player_hit")
-                    print("Game over!")
-                    raise SystemExit
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_shot")
 
-                for shot in shots:
-                    if asteroid.collides_with(shot):
-                        log_event("asteroid_shot")
+                    shot.kill()
+                    asteroid.split()
 
-                        shot.kill()
-                        asteroid.split()
+                    score.increment(asteroid.score())
 
-                        score.increment(asteroid.score())
+        for sprite in drawable:
+            sprite.draw(screen)
 
-            for sprite in drawable:
-                sprite.draw(screen)
+        pygame.display.flip()
+        delta_time = clock.tick(60) / 1000
 
-            pygame.display.flip()
 
-            delta_time = clock.tick(60) / 1000
-    except SystemExit:
-        score.save()
+    score.save()
 
 if __name__ == "__main__":
     main()
