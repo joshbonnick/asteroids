@@ -71,15 +71,7 @@ def main():
 
             for shot in shots:
                 if asteroid.collides_with(shot):
-                    log_event("asteroid_shot")
-
-                    sound_manager.hit()
-
-                    shot.kill()
-                    asteroid.split()
-
-                    score.shot_hit()
-                    score.increment(asteroid.score())
+                    asteroid.hit(shot)
 
         for sprite in drawable:
             sprite.draw(screen)

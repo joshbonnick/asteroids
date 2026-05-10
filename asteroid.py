@@ -5,6 +5,9 @@ import pygame.draw
 from circleshape import CircleShape
 from constants import *
 from logger import log_event
+from shot import Shot
+from soundmanager import SoundManager
+from score import Score
 
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
@@ -56,6 +59,19 @@ class Asteroid(CircleShape):
     def score(self):
         """Score received for shooting this asteroid"""
         return self.radius * ASTEROID_SCORE_MULTIPLIER
+
+    def hit(self, shot: Shot):
+        log_event("asteroid_shot")
+
+        score = Score()
+        shot.kill()
+
+        SoundManager().hit()
+
+        self.split()
+
+        score.shot_hit()
+        score.increment(self.score())
 
     def split(self):
         self.kill()
