@@ -33,10 +33,11 @@ class Score(pygame.sprite.Sprite):
 
             self._dirty = False
 
+        line_spacing = 5
         y = 0
         for surface in self._surfaces:
             screen.blit(surface, (0, y))
-            y += surface.get_height()
+            y += surface.get_height() + line_spacing
 
     def increment(self, delta):
         self.set_score(self.current + delta)
