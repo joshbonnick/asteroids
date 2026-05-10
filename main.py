@@ -16,13 +16,13 @@ def main():
 
     player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
-    screen.fill((0, 0, 0))
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 raise SystemExit
         log_state()
+        screen.fill((0, 0, 0))
 
         player.draw(screen)
         pygame.display.flip()
