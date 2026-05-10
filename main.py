@@ -13,6 +13,7 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}\nScreen height: {SCREEN_HEIGHT}")
 
     pygame.init()
+    pygame.font.init()
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -28,11 +29,11 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     Shot.containers = (shots, updatable, drawable)
 
+    score = Score()
+
     AsteroidField.containers = (updatable,)
 
     player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-
-    score = Score()
 
     AsteroidField()
 
@@ -63,6 +64,7 @@ def main():
             for sprite in drawable:
                 sprite.draw(screen)
 
+            score.draw(screen)
             pygame.display.flip()
 
             delta_time = clock.tick(60) / 1000
