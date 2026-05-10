@@ -60,6 +60,7 @@ def main():
                     shot.kill()
                     asteroid.split()
 
+                    score.shot_hit()
                     score.increment(asteroid.score())
 
         for sprite in drawable:

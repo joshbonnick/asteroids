@@ -14,7 +14,9 @@ class Score(pygame.sprite.Sprite):
         self.current = 0
         self.high = 0
         self.session = 0
+
         self.shots_fired = 0
+        self.shots_hit = 0
 
         self.load()
 
@@ -51,6 +53,9 @@ class Score(pygame.sprite.Sprite):
 
     def shot_fired(self, delta = 1):
         self.shots_fired += delta
+
+    def shot_hit(self, delta = 1):
+        self.shots_hit += delta
 
     def set_score(self, score):
         self.current = score
