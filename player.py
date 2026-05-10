@@ -2,6 +2,7 @@ from circleshape import CircleShape
 import pygame
 from constants import *
 from shot import Shot
+from maths import *
 
 class Player(CircleShape):
     shot_cooldown = 0
@@ -13,6 +14,14 @@ class Player(CircleShape):
 
     def draw(self, screen):
         return pygame.draw.polygon(screen, (255, 255, 255), self.triangle(), LINE_WIDTH)
+
+    def collides_with(self, other):
+        if not hasattr(other, "position"):
+            return False
+
+        a, b, c = self.triangle()
+        closest = closest_point_on_triangle(other.position, a, b, c)
+        return (other.position - closest).length() < other.radius
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
